@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Magalu Rainbow Accent Bar — Versão Card</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: transparent;
+    }
+    @keyframes magaluCardFlowRight {
+      0%   { background-position: 0% 50%; }
+      100% { background-position: -200% 50%; }
+    }
+    @keyframes magaluCardWave {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    #card-bar {
+      width: 100%;
+      height: 5px;
+      border-radius: 0;
+      background-color: #0058CC;
+      background-image: linear-gradient(
+        90deg,
+        #FCD000 0%,
+        #FF8A00 6.25%,
+        #FF253A 12.5%,
+        #FF37A8 18.75%,
+        #A400E1 25%,
+        #0086FF 31.25%,
+        #00CCE4 37.5%,
+        #00D604 43.75%,
+        #FCD000 50%,
+        #FF8A00 56.25%,
+        #FF253A 62.5%,
+        #FF37A8 68.75%,
+        #A400E1 75%,
+        #0086FF 81.25%,
+        #00CCE4 87.5%,
+        #00D604 93.75%,
+        #FCD000 100%
+      );
+      background-size: 200% 100%;
+      animation: magaluCardFlowRight 4.5s linear infinite;
+      will-change: background-position;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      #card-bar {
+        animation: none;
+        background-size: 100% 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="card-bar"></div>
+  <script>
+    (function () {
+      try {
+        var params = new URLSearchParams(window.location.search);
+        var el = document.getElementById('card-bar');
+        var h = parseFloat(params.get('h'));
+        if (!isNaN(h) && h >= 1 && h <= 64) {
+          el.style.height = h + 'px';
+        }
+        var r = parseFloat(params.get('r'));
+        if (!isNaN(r) && r >= 0 && r <= 32) {
+          el.style.borderRadius = r + 'px ' + r + 'px 0 0';
+        }
+        var bg = params.get('bg');
+        if (bg && /^[0-9a-fA-F]{6}$/.test(bg)) {
+          document.documentElement.style.backgroundColor = '#' + bg;
+          document.body.style.backgroundColor = '#' + bg;
+        }
+        var speed = parseFloat(params.get('speed'));
+        if (!isNaN(speed) && speed >= 0.5 && speed <= 30) {
+          el.style.animationDuration = speed + 's';
+        }
+        var mode = params.get('mode');
+        if (mode === 'wave') {
+          el.style.animationName = 'magaluCardWave';
+          el.style.animationTimingFunction = 'ease-in-out';
+        } else if (mode === 'static') {
+          el.style.animation = 'none';
+          el.style.backgroundSize = '100% 100%';
+        }
+      } catch (e) {}
+    })();
+  </script>
+</body>
+</html>
